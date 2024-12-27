@@ -13,16 +13,13 @@
            <p> Промокод: {{ order.promo }}</p>
            <p> Кто создал заказ: {{ order.user }}</p>
         </li>
-
-    {% endfor %}
 <h2>Товары в заказе:</h2>
-    <ul>
-        {% for product in order.products.all %}
-            <li>
-               {{ product.name }} по цене {{ product.price }}
-            </li>
-        {% endfor %}
-    </ul>
+            {% for product in order.products.all %}
+                <li>
+                    <p>{{ product.name }} по цене {{ product.price }}</p>
+        </li>
+            {% endfor %}
+    {% endfor %}
 
 
 {%  endblock %}
