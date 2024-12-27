@@ -1,0 +1,28 @@
+{%  extends 'shopapp/base.html' %}
+
+{% block title %}
+    Детали заказа
+{%  endblock %}
+
+{% block body %}
+    <h1> Детали заказа: </h1>
+    {%  for order in orders %}
+        <li>
+           <p> Заказ: {{ order.id }}</p>
+           <p> Адрес доставки: {{ order.address }}</p>
+           <p> Промокод: {{ order.promo }}</p>
+           <p> Кто создал заказ: {{ order.user }}</p>
+        </li>
+
+    {% endfor %}
+<h2>Товары в заказе:</h2>
+    <ul>
+        {% for product in order.products.all %}
+            <li>
+               {{ product.name }} по цене {{ product.price }}
+            </li>
+        {% endfor %}
+    </ul>
+
+
+{%  endblock %}

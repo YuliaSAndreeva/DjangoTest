@@ -1,9 +1,11 @@
+from lib2to3.fixes.fix_input import context
+
 from django.contrib.auth.models import Group
 from django.http import HttpResponse,HttpRequest
 from django.shortcuts import render
 from timeit import default_timer as timer
 
-from shopapp.models import Product
+from shopapp.models import Product, Order
 
 
 def shop_index(request):
@@ -34,3 +36,11 @@ def product_list(request: HttpRequest):
         'products': Product.objects.all(),
     }
     return render(request, 'shopapp/product_list.html', context = context)
+
+def order_detail_view(request: HttpRequest):
+    context = {
+        'orders' : Order.objects.all(),
+
+
+    }
+    return render(request, 'shopapp/order_detail_view.html', context = context)
