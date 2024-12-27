@@ -15,4 +15,4 @@ class Command(BaseCommand):
             new_product, created = Product.objects.get_or_create(name=product)
             if created:
                 self.stdout.write(f'Продукт {new_product.name} создан')
-        self.stdout.write('Продукты создан')
+        self.stdout.write('Продукты созданы')

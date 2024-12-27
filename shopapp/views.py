@@ -3,6 +3,9 @@ from django.http import HttpResponse,HttpRequest
 from django.shortcuts import render
 from timeit import default_timer as timer
 
+from shopapp.models import Product
+
+
 def shop_index(request):
 
     products = [
@@ -25,3 +28,9 @@ def group_list(request: HttpRequest):
 
     }
     return render(request, 'shopapp/group_list.html', context = context)
+
+def product_list(request: HttpRequest):
+    context = {
+        'products': Product.objects.all(),
+    }
+    return render(request, 'shopapp/product_list.html', context = context)

@@ -1,0 +1,18 @@
+{%  extends 'shopapp/base.html' %}
+
+{% block title %}
+    Товары
+{% endblock %}
+
+{% block body %}
+    <h1>Товары: </h1>
+    <ul>
+        {%  for product in products %}
+            <li>
+                <p> Название: {{ product.name}} </p>
+                <p> Цена: {{ product.price}} </p>
+                <p> Скидка: {{ product.discount}} </p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
