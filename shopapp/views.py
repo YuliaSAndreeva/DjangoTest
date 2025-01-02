@@ -1,8 +1,9 @@
+from itertools import product
 from lib2to3.fixes.fix_input import context
 
 from django.contrib.auth.models import Group
 from django.http import HttpResponse,HttpRequest
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from timeit import default_timer as timer
 
 from shopapp.models import Product, Order
@@ -40,6 +41,6 @@ def product_list(request: HttpRequest):
 def order_detail_view(request: HttpRequest):
 
     context = {
-        'orders' : Order.objects.all(),
+        'orders' : Order.objects.select_related('user').prefetch_related('products').all(),
     }
     return render(request, 'shopapp/order_detail_view.html', context = context)
