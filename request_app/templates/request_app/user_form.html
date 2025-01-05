@@ -1,0 +1,62 @@
+{%  extends 'request_app/base.html' %}
+
+{% block title %}
+   User info
+{%  endblock %}
+
+{% block body %}
+
+  <h1> User form</h1>
+
+
+    <div>
+        <form method="post">
+            {% csrf_token %}
+
+            <p>
+                <label for="name-id"> Полное имя</label>
+                <input id="name-id" name="name" type="text" maxlength="10">
+            </p>
+
+            <p>
+                <label for="age"> Возраст</label>
+                <input id="age" name="age" type="number" min="1" max="99" >
+            </p>
+
+            <p>
+                <label for="info"> Информация
+                </label>
+                <textarea name="info" id="info" cols="42" rows="5"></textarea>
+            </p>
+
+            <button type="submit">
+                Сохранить
+            </button>
+        </form>
+    </div>
+
+    {% if request.POST %}
+        <div>
+            <h2> Переданые данные:</h2>
+
+        <table>
+            <tr>
+                <td>Имя:</td>
+                <td>{{ request.POST.name }}</td>
+            </tr>
+
+            <tr>
+                <td>Возраст:</td>
+                <td>{{ request.POST.age }}</td>
+            </tr>
+
+            <tr>
+                <td>Информация:</td>
+                <td>{{ request.POST.info|linebreaks }}</td>
+            </tr>
+
+        </table>
+        </div>
+    {% endif %}
+{%  endblock %}
+

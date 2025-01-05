@@ -1,0 +1,18 @@
+{%  extends 'request_app/base.html' %}
+
+{% block title %}
+   Requests with query
+{%  endblock %}
+
+{% block body %}
+   <h1> This is {{ request.method }} request }} </h1>
+    
+    <div>
+    <pre>
+    a = {{ a }}
+    b = {{ b }}
+    result = {{ result }}
+    </pre>
+    </div>
+{%  endblock %}
+

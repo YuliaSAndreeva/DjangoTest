@@ -10,16 +10,16 @@ class OrderInLine(admin.TabularInline):
     model = Product.orders.through
 
 @admin.action(description='Безопасное удаление')
-def mark_archived(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset:QuerySet):
+def mark_archived(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet):
     queryset.update(archived=True)
 
 
 @admin.action(description='Восстановление')
-def mark_unarchived(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset:QuerySet):
+def mark_unarchived(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet):
     queryset.update(archived=False)
 
 @admin.action(description=f'Установить скидку 5%%  для товаров без скидки')
-def set_discount_to_5_percent(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset:QuerySet):
+def set_discount_to_5_percent(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet):
     queryset.filter(discount=0).update(discount=5)
 
 
