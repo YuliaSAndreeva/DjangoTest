@@ -42,12 +42,12 @@ class ThrottlingMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
         self.request_timestamps = {}
-        self.request_limits = getattr(settings, 'THROTTLING_LIMITS', {
-            'default': {
-                'rate': 2,
-                'seconds': 60
-            }
-        })
+        self.request_limits = THROTTLING_LIMITS = {
+    'default': {
+                'rate': 5,
+                'seconds': 30,
+                }
+}
     def process_request(self, request: HttpRequest):
         user_ip = request.META.get('REMOTE_ADDR')
         current_timestamp = time.time()
