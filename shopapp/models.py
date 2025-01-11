@@ -2,6 +2,7 @@ from itertools import product
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 
 class Product(models.Model):
@@ -34,6 +35,6 @@ class Product(models.Model):
 class Order(models.Model):
     address = models.TextField(null=True, blank=True)
     promo = models.CharField(max_length=20, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True)
     products = models.ManyToManyField(Product, related_name='orders')

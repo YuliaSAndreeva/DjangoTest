@@ -6,6 +6,8 @@
 
 {% block body %}
     <h1>Товары: </h1>
+
+    <div>
     <ul>
         {%  for product in products %}
             <li>
@@ -14,6 +16,10 @@
                 <p> Скидка: {{ product.discount}} </p>
             </li>
     {%  endfor %}
-
     </ul>
+    </div>
+
+    <div>
+        <a href="{% url 'shopapp:product_create' %}"> Создать товар </a>
+    </div>
 {% endblock %}

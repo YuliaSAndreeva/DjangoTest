@@ -44,8 +44,8 @@ class ThrottlingMiddleware:
         self.request_timestamps = {}
         self.request_limits = THROTTLING_LIMITS = {
     'default': {
-                'rate': 5,
-                'seconds': 30,
+                'rate': 1000,
+                'seconds': 1,
                 }
 }
     def process_request(self, request: HttpRequest):
