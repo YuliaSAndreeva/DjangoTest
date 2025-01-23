@@ -1,0 +1,25 @@
+{% extends 'shopapp/base.html' %}
+
+{%  block title %}
+    Заказ №{{ object.pk }}
+{% endblock %}
+
+{%  block body %}
+    <h1>Заказ {{ object.pk }}</h1>
+    <div>
+        <div> Заказчик: {{ object.user }} </div>
+        <div> Промокод: {{ object.promo }}</div>
+        <div> Адрес: {{ object.address }} </div>
+        <h3>Товары в заказе:</h3>
+               <ul>
+                    {% for product in object.products.all %}
+                       <li>
+                          <p>{{ product.name }} по цене {{ product.price }}</p>
+                       </li>
+                    {% endfor %}
+               </ul>
+    </div>
+    <div>
+        <a href="{% url 'shopapp:orders_list' %}"> Обратно к товарам</a>
+    </div>
+{% endblock %}
