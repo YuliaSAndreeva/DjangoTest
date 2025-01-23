@@ -1,11 +1,11 @@
 {% extends 'shopapp/base.html' %}
 
 {% block title %}
-	Confirm delete product
+	Confirm delete order
 {% endblock %}
 
 {% block body %}
-	<h1>Удаление продукта {{ object.name }}</h1>
+	<h1>Удаление заказа {{ object.name }}</h1>
     <h1>Подтверждаете удаление?</h1>
     <div>
         <form method="POST">
@@ -20,6 +20,6 @@
     </div>
 
     <div>
-    <a href="{% url 'shopapp:product_detail' pk=object.pk %}"> Обратно к товарам</a>
+    <a href="{% url 'shopapp:order_details' pk=object.pk %}"> Обратно к заказам</a>
     </div>
 {% endblock %}

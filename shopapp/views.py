@@ -195,4 +195,27 @@ def order_create(request: HttpRequest):
     context = {
         'form': form,
     }
-    return render(request, 'shopapp/order_create.html', context = context)
+    return render(request, 'shopapp/order_form.html', context = context)
+
+
+class OrderCreateView(CreateView):
+    model = Order
+    #fields = 'name', 'price', 'description', 'discount'
+    form_class = OrderForm
+    success_url = reverse_lazy('shopapp:orders_list')
+
+class OrderUpdateView(UpdateView):
+    model = Order
+    form_class = OrderForm
+    template_name_suffix = '_update'
+
+    def get_success_url(self):
+        return reverse(
+            'shopapp:order_details',
+            kwargs={'pk': self.object.pk}
+        )
+
+
+class OrderDeleteView(DeleteView):
+    model = Order
+    success_url = reverse_lazy('shopapp:orders_list')

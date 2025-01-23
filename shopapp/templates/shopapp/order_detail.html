@@ -22,4 +22,12 @@
     <div>
         <a href="{% url 'shopapp:orders_list' %}"> Обратно к заказам</a>
     </div>
+
+    <div>
+        <a href="{% url 'shopapp:order_update' pk=object.pk %}"> Изменить заказ </a>
+    </div>
+
+     <div>
+        <a href="{% url 'shopapp:order_delete' pk=object.pk %}"> Удалить заказ </a>
+    </div>
 {% endblock %}

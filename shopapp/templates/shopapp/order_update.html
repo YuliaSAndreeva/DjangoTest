@@ -1,25 +1,23 @@
 {% extends 'shopapp/base.html' %}
 
 {% block title %}
-	Confirm delete product
+	Update order
 {% endblock %}
 
 {% block body %}
-	<h1>Удаление продукта {{ object.name }}</h1>
-    <h1>Подтверждаете удаление?</h1>
+	<h1>Изменение заказа</h1>
     <div>
         <form method="POST">
-
             {% csrf_token %}
             {{ form.as_p }}
 
             <button type="submit">
-                Удалить
+                Изменить заказ
             </button>
         </form>
     </div>
 
     <div>
-    <a href="{% url 'shopapp:product_detail' pk=object.pk %}"> Обратно к товарам</a>
+    <a href="{% url 'shopapp:orders_list' %}"> Обратно к списку заказов</a>
     </div>
 {% endblock %}

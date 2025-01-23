@@ -14,7 +14,10 @@ from .views import (
     ProductCreateView,
     ProductUpdateView,
     ProductDeleteView,
-    order_create
+    order_create,
+    OrderCreateView,
+    OrderUpdateView,
+    OrderDeleteView,
 )
 
 
@@ -30,6 +33,8 @@ urlpatterns = [
     path('products/create/', ProductCreateView.as_view(), name='product_create'),
     path('orders/', OrderListView.as_view(), name='orders_list'),
     path('orders/<int:pk>/', OrderDetailView.as_view(), name='order_details'),
-    path('orders/create/', order_create, name='order_create'),
+    path('orders/<int:pk>/update/', OrderUpdateView.as_view(), name='order_update'),
+    path('orders/<int:pk>/confirm-delete/', OrderDeleteView.as_view(), name='order_delete'),
+    path('orders/create/', OrderCreateView.as_view(), name='order_create'),
 
 ]
