@@ -6,23 +6,28 @@
 
 {% block body %}
     <h1> Детали заказа: </h1>
-    <ul>
-    {%  for order in orders %}
-        <li>
-           <p> Заказ: {{ order.id }}</p>
+    <div>
+    {%  for order in object_list %}
+        <div>
+        <div>
+            <p> <a href="{% url 'shopapp:order_details' pk=order.pk %}">Заказ #{{ order.id }}</a></p>
+        </div>
            <p> Адрес доставки: {{ order.address }}</p>
            <p> Промокод: {{ order.promo }}</p>
-           <p> Кто создал заказ: {{ order.user }}</p>
-        </li>
-<h2>Товары в заказе:</h2>
+           <p> Кто создал заказ: {% firstof order.user.first_name order.user.username %}</p>
+
+           <h3>Товары в заказе:</h3>
+               <ul>
             {% for product in order.products.all %}
                 <li>
                     <p>{{ product.name }} по цене {{ product.price }}</p>
         </li>
             {% endfor %}
+               </ul>
+        </div>
     {% endfor %}
 
-     </ul>
+     </div>
 
     <div>
         <a href="{% url 'shopapp:order_create' %}"> Создать заказ </a>

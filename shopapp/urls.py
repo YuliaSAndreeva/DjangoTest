@@ -1,14 +1,35 @@
 from django.urls import path
-from .views import shop_index, group_list, product_list, order_detail_view, create_product, order_create
+from .views import (
+    shop_index,
+    ShopIndexView,
+    group_list,
+    GroupsListView,
+    product_list,
+    ProductDetailView,
+    ProductsListView,
+    order_detail_view,
+    OrderListView,
+    OrderDetailView,
+    create_product,
+    ProductCreateView,
+    ProductUpdateView,
+    ProductDeleteView,
+    order_create
+)
+
 
 app_name = 'shopapp'
 
 urlpatterns = [
-    path('', shop_index, name='shop_index'),
-    path('groups/', group_list, name='groups_list'),
-    path('products/', product_list, name='product_list'),
-    path('products/create/', create_product, name='product_create'),
-    path('orders/', order_detail_view, name='order_detail'),
+    path('', ShopIndexView.as_view(), name='shop_index'),
+    path('groups/', GroupsListView.as_view(), name='groups_list'),
+    path('products/', ProductsListView.as_view(), name='product_list'),
+    path('products/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
+    path('products/<int:pk>/update/', ProductUpdateView.as_view(), name='product_update'),
+    path('products/<int:pk>/confirm-delete/', ProductDeleteView.as_view(), name='product_delete'),
+    path('products/create/', ProductCreateView.as_view(), name='product_create'),
+    path('orders/', OrderListView.as_view(), name='orders_list'),
+    path('orders/<int:pk>/', OrderDetailView.as_view(), name='order_details'),
     path('orders/create/', order_create, name='order_create'),
 
 ]

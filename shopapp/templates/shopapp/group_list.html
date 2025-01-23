@@ -7,6 +7,15 @@
 {%  block body %}
 Группы:
     <div>
+        <from method="post">
+             {% csrf_token %}
+             {{ form.as_p }}
+             <button type="submit">Создать</button>
+        </from>
+    </div>
+
+    <div>
+
     {% if not groups %}
     <h3> Групп нет </h3>
     {% else %}

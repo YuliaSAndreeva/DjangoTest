@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'shopapp/base.html' %}
+
+{% block title %}
+	Confirm delete product
+{% endblock %}
+
+{% block body %}
+	<h1>Удаление продукта {{ object.name }}</h1>
+    <h1>Подтверждаете удаление?</h1>
+    <div>
+        <form method="POST">
+
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit">
+                Удалить
+            </button>
+        </form>
+    </div>
+
+    <div>
+    <a href="{% url 'shopapp:product_detail' pk=object.pk %}"> Обратно к товарам</a>
+    </div>
+{% endblock %}>1

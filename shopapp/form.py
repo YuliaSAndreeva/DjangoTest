@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import Group
 from django.core import validators
 
 from shopapp.models import Product, Order
@@ -27,3 +28,8 @@ class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = 'address', 'promo', 'created_at', 'products'
+
+class GroupForm(forms.ModelForm):
+    class Meta:
+        model = Group
+        fields = ['name']

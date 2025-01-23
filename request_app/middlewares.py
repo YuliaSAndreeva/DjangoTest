@@ -42,12 +42,12 @@ class ThrottlingMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
         self.request_timestamps = {}
-        self.request_limits = THROTTLING_LIMITS = {
-    'default': {
-                'rate': 1000,
-                'seconds': 1,
-                }
-}
+        self.request_limits = getattr(settings, 'THROTTLING_LIMITS', {
+            'default': {
+                'rate': 60,
+                'seconds': 60,
+            },
+        })
     def process_request(self, request: HttpRequest):
         user_ip = request.META.get('REMOTE_ADDR')
         current_timestamp = time.time()
@@ -55,13 +55,26 @@ class ThrottlingMiddleware:
         rate = self.get_rate_limit(request)
 
         if user_ip in self.request_timestamps:
-            last_timestamp = self.request_timestamps[user_ip]
-            time_diff = current_timestamp - last_timestamp
+            timestamp = self.request_timestamps[user_ip]
+            timestamp = [ts for ts in timestamp if current_timestamp - ts < rate['seconds']]
+            self.request_timestamps[user_ip] = timestamp
 
-            if time_diff < (rate['seconds']/rate['rate']):
-                remaining_time = (rate['seconds']/rate['rate']) - time_diff
-                return HttpResponseForbidden(f"Слишком много запросов. Пожалуйста, подождите {remaining_time} секунд.")
-        self.request_timestamps[user_ip] = current_timestamp
+            if len(timestamp) >= rate['rate']:
+                remaining_time = rate['seconds'] - (current_timestamp - timestamp[0])
+                return HttpResponseForbidden(f"Слишком много запросов. Пожалуйста, подождите {remaining_time:.2f} секунд.")
+        else:
+            self.request_timestamps[user_ip] = []
+        self.request_timestamps[user_ip].append(current_timestamp)
+
+
+
+        #     last_timestamp = self.request_timestamps[user_ip]
+        #     time_diff = current_timestamp - last_timestamp
+        #
+        #     if time_diff < (rate['seconds']/rate['rate']):
+        #         remaining_time = (rate['seconds']/rate['rate']) - time_diff
+        #         return HttpResponseForbidden(f"Слишком много запросов. Пожалуйста, подождите {remaining_time} секунд.")
+        # self.request_timestamps[user_ip] = current_timestamp
         return None
 
     def get_rate_limit(self, request):

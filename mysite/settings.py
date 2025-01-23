@@ -59,6 +59,22 @@ MIDDLEWARE = [
 
 ]
 
+# THROTTLING_LIMITS = {
+#     'default': {
+#          'rate': 60,
+#          'seconds': 60,
+#     },
+#     '/shop/': {
+#          'rate': 120,
+#         'seconds': 60,
+#     },
+#       '/admin/': {
+#         'rate': 10000,
+#         'seconds': 60,
+#     }
+#
+# }
+
 ROOT_URLCONF = 'mysite.urls'
 
 TEMPLATES = [

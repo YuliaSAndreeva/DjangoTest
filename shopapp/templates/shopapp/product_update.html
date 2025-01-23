@@ -1,10 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'shopapp/base.html' %}
+
+{% block title %}
+	Update product
+{% endblock %}
+
+{% block body %}
+	<h1>Изменение продукта</h1>
+    <div>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit">
+                Изменить
+            </button>
+        </form>
+    </div>
+
+    <div>
+    <a href="{% url 'shopapp:product_detail' pk=object.pk %}"> Обратно к товарам</a>
+    </div>
+{% endblock %}
