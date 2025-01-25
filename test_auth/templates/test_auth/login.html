@@ -1,0 +1,30 @@
+{% extends 'test_auth/base.html' %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+
+{% block body %}
+    <form method="post">
+        {% csrf_token %}
+        
+        {% if error %}
+            <p style="color: red">
+                {{ error }}
+            </p>
+        {% endif %}
+        <p>
+            <label for="username">Ваш ник</label>
+            <input type="text" id="username" name ="username" required>
+        </p>
+    
+        <p>
+            <label for="password">Пароль</label>
+            <input type="password" id="password" name ="password" required>
+        </p>
+    
+        <button type="submit">Войти</button>
+    
+    </form>
+{% endblock %}

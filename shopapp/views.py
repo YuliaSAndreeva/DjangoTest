@@ -165,7 +165,6 @@ def order_detail_view(request: HttpRequest):
 
 class OrderListView(ListView):
     # model = Order
-
     queryset = (
         Order.objects
         .select_related('user')
