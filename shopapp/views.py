@@ -1,6 +1,8 @@
 from itertools import product
 from lib2to3.fixes.fix_input import context
+from urllib import request
 
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Group
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from django.shortcuts import render, redirect, reverse, get_object_or_404
@@ -105,6 +107,13 @@ class ProductDetailView(DetailView):
     model = Product
     context_object_name = 'product'
 
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['can_edit'] = self.object.can_edit(self.request.user)
+        return context
+
+
 
 def create_product(request: HttpRequest) -> HttpResponse:
 
@@ -143,6 +152,18 @@ class ProductUpdateView(UpdateView):
             kwargs={'pk': self.object.pk}
         )
 
+# @login_required
+# @permission_required('shopapp.product_update', raise_exception=True)
+# def edit_product(request: HttpRequest, pk: int) -> HttpResponse:
+#     product = get_object_or_404(Product, pk=pk)
+#
+#     if not product.can_edit(request.user):
+#         return redirect(reverse('shopapp:product_list'))
+#
+#     if request.method == "POST":
+#         pass
+#
+#     return render(request, 'shopapp/product_form.html', {'product': product})
 
 class ProductDeleteView(DeleteView):
     model = Product

@@ -19,6 +19,12 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     changed_at = models.DateTimeField(auto_now=True)
     archived = models.BooleanField(default=False)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
+
+    def can_edit(self, user):
+        if user.is_superuser:
+            return True
+        return user.has_perm('shopapp.product_update') and self.author == user
 
 
     @property

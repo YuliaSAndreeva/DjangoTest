@@ -20,6 +20,8 @@
     </div>
 
     <div>
+    {% if perms.app_name.add_product %}
         <a href="{% url 'shopapp:product_create' %}"> Создать товар </a>
+    {% endif %}
     </div>
 {% endblock %}

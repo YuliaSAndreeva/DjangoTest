@@ -15,7 +15,9 @@
 
 
     <div>
+        {%  if can_edit %}
         <a href="{% url 'shopapp:product_update' pk=product.pk %}"> Изменить товар</a>
+        {% endif %}
     </div>
 
 
