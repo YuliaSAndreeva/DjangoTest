@@ -27,7 +27,7 @@ class ProductForm(forms.ModelForm):
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = 'address', 'promo', 'created_at', 'products'
+        fields = 'address', 'promo', 'products'
 
 class GroupForm(forms.ModelForm):
     class Meta:

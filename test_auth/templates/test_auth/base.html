@@ -3,15 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        {% block title %}
-            
-        {% endblock %}
+        {% block title %}My Website{% endblock %}
     </title>
+
+    <style>
+        .toolbar {
+            background-color: #f4f4f4; 
+            padding: 10px 20px; 
+            display: flex; 
+            justify-content: flex-start;
+            align-items: center; 
+            border-bottom: 1px solid #ddd; 
+        }
+
+        .toolbar a {
+            text-decoration: none; 
+            color: #007bff; 
+            font-weight: bold; 
+        }
+
+        .toolbar a:hover {
+            color: #0056b3; 
+        }
+
+        .toolbar span {
+            font-size: 16px; 
+            color: #333; 
+        }
+    </style>
 </head>
 <body>
+    <div class="toolbar">
+        {% if user.is_authenticated %}
+            <span>Привет, {{ user.username }}!</span>
+            <a href="{% url 'test_auth:logout' %}">Выйти</a>
+        {% else %}
+            <a href="{% url 'test_auth:login' %}">Войти</a>
+        {% endif %}
+    </div>
+
     {% block body %}
-    
-        
+
     {% endblock %}
 </body>
 </html>

@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        {%  block title %}
-            Base title
-        {% endblock %}
+        {% block title %}My Website{% endblock %}
     </title>
 </head>
 <body>
-     {%  block body %}
-        Base body
-     {% endblock %}
-
-    <h1> Hello! </h1>
-    <div>
-        Time running: {{ time_running }}
+    <div class="toolbar">
+        {% if user.is_authenticated %}
+            <span>Привет, {{ user.username }}!</span>
+            <a href="{% url 'test_auth:logout' %}">Выйти</a>
+        {% else %}
+            <a href="{% url 'test_auth:login' %}">Войти</a>
+        {% endif %}
     </div>
+
+    {% block body %}
+
+    {% endblock %}
 </body>
 </html>
