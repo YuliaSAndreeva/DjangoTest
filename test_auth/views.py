@@ -13,7 +13,7 @@ from django.views.generic import TemplateView, CreateView
 from test_auth.models import Profile
 
 
-class ProfileView(TemplateView, LoginRequiredMixin):
+class ProfileView(LoginRequiredMixin,TemplateView ):
     template_name = 'test_auth/profile.html'
 
 

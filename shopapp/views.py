@@ -11,9 +11,14 @@ from timeit import default_timer as timer
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.viewsets import ModelViewSet
 
 from shopapp.form import ProductForm, OrderForm, GroupForm
 from shopapp.models import Product, Order
+from shopapp.serializers import ProductSerializer, OrderSerializer
+
 
 class ShopIndexView(View):
 
@@ -239,3 +244,30 @@ class OrderUpdateView(UpdateView):
 class OrderDeleteView(DeleteView):
     model = Order
     success_url = reverse_lazy('shopapp:orders_list')
+
+
+#API и сериализаторы 01.02.25
+
+class ProductViewSet(ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [
+        DjangoFilterBackend,
+        SearchFilter,
+        OrderingFilter]
+    filterset_fields = [
+        'name',
+        'description',
+        'price',
+        'discount',
+        'archived',
+        'author',
+    ]
+    search_fields = ['name', 'description']
+    ordering_fields = ['price', 'name']
+
+class OrderViewSet(ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    filter_backends = [OrderingFilter]
+    ordering_fields = ['created_at']
