@@ -6,6 +6,11 @@ from django.utils import timezone
 
 
 class Product(models.Model):
+    """
+    Модель для представления товара,
+    который можно продавать в интернет-магазине.
+    Заказы: :model: 'shopapp.Order'
+    """
     class Meta:
         ordering = ['name']
         # db_table = 'new_products'

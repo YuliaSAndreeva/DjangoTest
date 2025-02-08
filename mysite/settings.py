@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'request_app.apps.RequestAppConfig',
     'test_auth.apps.AuthConfig',
 
+    'drf_spectacular',
+    'django.contrib.admindocs',
 
 ]
 
@@ -60,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.admindocs.middleware.XViewMiddleware',
 
     'request_app.middlewares.set_useragent_middleware',
     'request_app.middlewares.CountRequestMiddleware',
@@ -167,4 +170,13 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'My API Documentation',
+    'DESCRIPTION': 'API documentation for my project.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }

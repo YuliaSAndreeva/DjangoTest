@@ -3,6 +3,9 @@ from rest_framework import serializers
 from .models import Product, Order
 
 class ProductSerializer(serializers.ModelSerializer):
+
+    author = serializers.SerializerMethodField()
+
     class Meta:
         model = Product
         fields = (
@@ -15,6 +18,9 @@ class ProductSerializer(serializers.ModelSerializer):
             'archived',
             'author',
         )
+
+    def get_author(self, obj):
+        return obj.author.username
 
 
 class OrderSerializer(serializers.ModelSerializer):

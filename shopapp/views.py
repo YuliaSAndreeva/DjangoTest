@@ -1,16 +1,24 @@
-from itertools import product
-from lib2to3.fixes.fix_input import context
-from urllib import request
+"""
+В этом файле представления для интернет-магазина.
 
-from django.contrib.auth.decorators import login_required, permission_required
+Товары, заказы.
+"""
+
+
 from django.contrib.auth.models import Group
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import render, redirect, reverse
 from timeit import default_timer as timer
 
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.viewsets import ModelViewSet
@@ -18,6 +26,7 @@ from rest_framework.viewsets import ModelViewSet
 from shopapp.form import ProductForm, OrderForm, GroupForm
 from shopapp.models import Product, Order
 from shopapp.serializers import ProductSerializer, OrderSerializer
+from drf_spectacular.utils import extend_schema, OpenApiResponse
 
 
 class ShopIndexView(View):
@@ -247,8 +256,15 @@ class OrderDeleteView(DeleteView):
 
 
 #API и сериализаторы 01.02.25
-
+@extend_schema(
+    description='CRUD представления',
+    tags=['Товары'],
+)
 class ProductViewSet(ModelViewSet):
+    """
+    Набор представлений для модели Product
+    Полный CRUD для сущности товара
+    """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [
@@ -265,7 +281,21 @@ class ProductViewSet(ModelViewSet):
     ]
     search_fields = ['name', 'description']
     ordering_fields = ['price', 'name']
+    @extend_schema(
+        summary='Получение продукта по ID',
+        description='просто описание',
+        responses={
+        200: ProductSerializer(many=True),
+        404: OpenApiResponse(description='Товар не найден, пустой запрос'),
+    }
+    )
+    def retrieve(self, *args, **kwargs):
+        return super().retrieve(*args, **kwargs)
 
+@extend_schema(
+    description='CRUD представления',
+    tags=['Заказы'],
+)
 class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
