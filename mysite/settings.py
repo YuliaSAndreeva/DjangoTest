@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'test_api.apps.TestApiConfig',
+    'market.apps.MarketConfig',
 
     'shopapp.apps.ShopappConfig',
     'request_app.apps.RequestAppConfig',

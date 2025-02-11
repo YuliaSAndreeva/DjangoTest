@@ -36,7 +36,7 @@ class ProductAdmin(admin.ModelAdmin, Export_goods_mixin):
     inlines = [
         OrderInLine,
     ]
-    list_display = 'pk', 'name', 'description_short', 'price', 'discount', 'archived'
+    list_display = 'pk', 'name', 'description_short', 'discount', 'archived'
     list_display_links = 'pk', 'name'
     ordering = ['-pk']
     search_fields = ['name', 'description']

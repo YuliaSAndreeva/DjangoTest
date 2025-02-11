@@ -1,0 +1,22 @@
+{% extends 'shopapp/base.html' %}
+
+{%  block title %}
+    Товар №{{ product.pk }}
+{% endblock %}
+
+{%  block body %}
+    <h1>Товар {{ product.product }}</h1>
+    <div>
+        <div> Описание: <em>{{ product.product.description }}</em> </div>
+        <div> Цена: {{ product.price }} </div>
+        <div> Скидка: {{ product.product.discount }} </div>
+        <div> Архивировано: {{ product.product.archived }} </div>
+        <div> Магазин: {{ product.shop }} </div>
+        <div> Остаток: {{ product.quantity }} </div>
+    </div>
+
+    
+    <div>
+        <a href="{% url 'market:products' %}"> Обратно к товарам</a>
+    </div>
+{% endblock %}

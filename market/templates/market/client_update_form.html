@@ -1,0 +1,23 @@
+{% extends 'shopapp/base.html' %}
+
+{% block title %}
+	Update client
+{% endblock %}
+
+{% block body %}
+	<h1>Изменение информации</h1>
+    <div>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit">
+                Изменить
+            </button>
+        </form>
+    </div>
+
+    <div>
+    <a href="{% url 'market:client_info' pk=object.pk %}"> Обратно к профилю</a>
+    </div>
+{% endblock %}

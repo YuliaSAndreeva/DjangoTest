@@ -22,7 +22,7 @@ from shopapp.models import Product, Order
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = 'name', 'price', 'description', 'discount'
+        fields = 'name', 'description', 'discount'
 
 class OrderForm(forms.ModelForm):
     class Meta:

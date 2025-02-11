@@ -1,0 +1,23 @@
+{% extends 'shopapp/base.html' %}
+
+{% block title %}
+	Пополнение баланса
+{% endblock %}
+
+{% block body %}
+	<h1>На сколько пополнить?</h1>
+    <div>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit">
+                Пополнить
+            </button>
+        </form>
+    </div>
+
+    <div>
+    <a href="{% url 'market:client_info' pk=user.client_set.first.pk %}"> Обратно к профилю</a>
+    </div>
+{% endblock %}

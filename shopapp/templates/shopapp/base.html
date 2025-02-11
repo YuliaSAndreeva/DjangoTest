@@ -8,12 +8,18 @@
 </head>
 <body>
     <div class="toolbar">
+    <ul>
+        <li> <a href="{% url 'shopapp:groups_list' %}">Группы</a></li>
+        <li> <a href="{% url 'shopapp:orders_list' %}">Заказы</a></li>
+        <li> <a href="{% url 'shopapp:product_list' %}">Товары</a></li>
         {% if user.is_authenticated %}
             <span>Привет, {{ user.username }}!</span>
-            <a href="{% url 'test_auth:logout' %}">Выйти</a>
+            <a href=" {% url 'test_auth:logout' %} ">Выйти</a>
         {% else %}
             <a href="{% url 'test_auth:login' %}">Войти</a>
         {% endif %}
+    </ul>
+        
     </div>
 
     {% block body %}

@@ -1,0 +1,29 @@
+{% extends 'shopapp/base.html' %}
+
+{% block title %}
+    Client info
+{% endblock %}
+
+{% block body %}
+     <h1> Client profile</h1>
+    
+    {%  if client.user.is_authenticated %}
+        <h2>Детали:</h2>
+        <p>Имя: {{ client.name }}</p>
+        <p>Баланс: {{ client.balance }} <a href="{% url 'market:wallet_up' pk=client.pk %}">Пополнить</a> </p>
+        {% if client.status < 30000 %}
+            <p>Бронзовый статус</p>
+        {% elif client.status > 200000 %}    
+            <p>Золотой статус</p>
+        {% else %}    
+            <p>Серебрянный статус</p>
+        {% endif %}
+        
+    {% else %}
+        
+    <h2>User is anonymus</h2>
+        
+    {% endif %}
+    
+    
+{% endblock %}

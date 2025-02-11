@@ -1,0 +1,25 @@
+{%  extends 'shopapp/base.html' %}
+
+{% block title %}
+    Товары
+{% endblock %}
+
+{% block body %}
+    <h1>Товары: </h1>
+
+    <div>
+    <ul>
+        {%  for object in object_list %}
+            <li>
+                <p> <a href="{% url "market:product_details" pk=object.pk %}">Название: {{ object.product}} </a> </p>
+                <p> Цена: {{ object.price}} </p>
+                <p> Магазин: {{ object.shop}} </p>
+                <p> В наличии: {{ object.quantity}} шт</p>
+                <p> ......................................</p>
+            </li>
+    {%  endfor %}
+    </ul>
+    </div>
+
+   
+{% endblock %}

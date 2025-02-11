@@ -28,4 +28,5 @@ urlpatterns = [
     path('reg/', include('request_app.urls')),
     path('auth/', include('test_auth.urls')),
     path('api/', include('test_api.urls')),
+    path('market/', include('market.urls')),
 ]
