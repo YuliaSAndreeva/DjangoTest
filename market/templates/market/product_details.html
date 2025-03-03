@@ -1,4 +1,4 @@
-{% extends 'shopapp/base.html' %}
+{% extends 'market/base.html' %}
 
 {%  block title %}
     Товар №{{ product.pk }}
@@ -13,8 +13,14 @@
         <div> Архивировано: {{ product.product.archived }} </div>
         <div> Магазин: {{ product.shop }} </div>
         <div> Остаток: {{ product.quantity }} </div>
+        {% if product.quantity > 0 %}
+            <form action="{% url 'cart:cart_add' pk=product.pk%}" method="post">
+            {% csrf_token %}
+            {{ form}}
+            <input type="submit" value="Добавить в корзину">
+            </form>
+        {% endif %}
     </div>
-
     
     <div>
         <a href="{% url 'market:products' %}"> Обратно к товарам</a>

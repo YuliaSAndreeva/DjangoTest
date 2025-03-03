@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.views.decorators.cache import cache_page
 from rest_framework.routers import DefaultRouter
 from .views import (
     shop_index,
@@ -20,7 +21,7 @@ from .views import (
     OrderUpdateView,
     OrderDeleteView,
     ProductViewSet,
-    OrderViewSet,
+    OrderViewSet, ProductsExportView,
 )
 
 
@@ -31,7 +32,8 @@ router.register(r'products', ProductViewSet)
 router.register(r'orders', OrderViewSet)
 
 urlpatterns = [
-    # path('', ShopIndexView.as_view(), name='shop_index'),
+    path('', cache_page(2)(ShopIndexView.as_view()), name='shop_index'),
+    path('api/', include(router.urls)),
     path('groups/', GroupsListView.as_view(), name='groups_list'),
     path('products/', ProductsListView.as_view(), name='product_list'),
     path('products/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
@@ -43,6 +45,6 @@ urlpatterns = [
     path('orders/<int:pk>/update/', OrderUpdateView.as_view(), name='order_update'),
     path('orders/<int:pk>/confirm-delete/', OrderDeleteView.as_view(), name='order_delete'),
     path('orders/create/', OrderCreateView.as_view(), name='order_create'),
-    path('api/', include(router.urls)),
+    path('json/', ProductsExportView.as_view(), name='json'),
 
 ]

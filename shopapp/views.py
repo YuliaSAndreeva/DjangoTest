@@ -3,15 +3,19 @@
 
 Товары, заказы.
 """
-
+from email.policy import default
+from itertools import product
 
 from django.contrib.auth.models import Group
-from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, reverse
-from timeit import default_timer as timer
+from timeit import default_timer as timer, default_timer
 
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.utils.translation.trans_null import ngettext
 from django.views import View
+from django.views.decorators.cache import cache_page
 from django.views.generic import (
     ListView,
     DetailView,
@@ -22,12 +26,31 @@ from django.views.generic import (
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.viewsets import ModelViewSet
+from django.core.cache import cache
 
 from shopapp.form import ProductForm, OrderForm, GroupForm
 from shopapp.models import Product, Order
 from shopapp.serializers import ProductSerializer, OrderSerializer
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 
+
+class ProductsExportView(View):
+
+    def get(self, request):
+        products_data = cache.get('products')
+        if products_data is None:
+            products = Product.objects.all()
+            print('обращение к бд')
+            products_data = [
+                {
+                    'pk':product.pk,
+                    'name':product.name,
+                    'price':product.price,
+                }
+                for product in products
+            ]
+            cache.set('products', products_data, 20)
+        return JsonResponse({'products':products_data})
 
 class ShopIndexView(View):
 
@@ -39,9 +62,12 @@ class ShopIndexView(View):
         ]
 
         context = {
-            'time_running': timer(),
+            'time_running': default_timer(),
             'products': products,
+            'items':5,
+
         }
+        print('shop index', context)
 
         return render(request, 'shopapp/index.html', context=context)
 
@@ -291,6 +317,11 @@ class ProductViewSet(ModelViewSet):
     )
     def retrieve(self, *args, **kwargs):
         return super().retrieve(*args, **kwargs)
+
+    @method_decorator(cache_page(10))
+    def list(self, *args, **kwargs):
+        print('hello')
+        return super().list(*args, **kwargs)
 
 @extend_schema(
     description='CRUD представления',

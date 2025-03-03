@@ -55,7 +55,7 @@ class ShopItem(models.Model):
 
 
 class Client(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, verbose_name='Имя клиента')
     balance = models.PositiveIntegerField(default=0, verbose_name='Баланс')
     status = models.PositiveIntegerField(default=0, verbose_name='Статус')

@@ -1,0 +1,47 @@
+{% extends 'market/base.html' %}
+{% block title %}
+    Ваша корзина
+{% endblock %}
+
+
+{% block body %}
+    <h1> Ваша корзина </h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Товары</th>
+                <th>Магазин</th>
+                <th>Количество</th>
+                <th>Удалить</th>
+                <th>Цена</th>
+                <th>Общая стоимость</th>
+            </tr>
+        </thead>
+    <tbody>
+        {% for item in cart %}
+            {% with product=item.product %}
+                <tr>
+                    <td> {{ product.product }}</td>
+                    <td> {{ item.shop }}</td>
+                    <td> {{ item.quantity }}</td>
+                    <td><a href="{% url 'cart:cart_remove' pk=product.pk %}">Удалить!</a></td>
+                    <td> {{ item.price }}</td>
+                    <td> {{ item.total_sum }}</td>
+                </tr>
+            {% endwith %}
+        {% endfor %}
+    
+    <tr class="total">
+        <td> Итого:</td>
+        <td class="num">{{ cart.get_total_sum }}</td>
+    </tr>
+    
+    </tbody>
+    
+    </table>
+    
+    <p class="text-right">
+    <a href="{% url 'market:products' %}" class="button light"> Обратно к товарам</a>
+    <a href="{% url 'cart:cart_buy' %}" class="button"> Оплата</a>
+    </p>
+{% endblock %}

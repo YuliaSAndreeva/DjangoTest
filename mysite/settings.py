@@ -12,8 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
-from django.conf.global_settings import LOGIN_REDIRECT_URL, LOGIN_URL
+from django.conf.global_settings import LOGIN_REDIRECT_URL, LOGIN_URL, CACHES, CACHE_MIDDLEWARE_SECONDS, LOCALE_PATHS
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'django_filters',
     'test_api.apps.TestApiConfig',
     'market.apps.MarketConfig',
+    'cart.apps.CartConfig',
 
     'shopapp.apps.ShopappConfig',
     'request_app.apps.RequestAppConfig',
@@ -56,18 +58,22 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # 'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.admindocs.middleware.XViewMiddleware',
+    # 'django.middleware.cache.FetchFromCacheMiddleware',
 
-    'request_app.middlewares.set_useragent_middleware',
-    'request_app.middlewares.CountRequestMiddleware',
-    'request_app.middlewares.ThrottlingMiddleware',
+
+    # 'request_app.middlewares.set_useragent_middleware',
+    # 'request_app.middlewares.CountRequestMiddleware',
+    # 'request_app.middlewares.ThrottlingMiddleware',
 
 ]
 
@@ -100,6 +106,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processors.cart',
             ],
         },
     },
@@ -117,6 +124,18 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+CACHES = {
+    'default': {
+        'BACKEND' : 'django.core.cache.backends.filebased.FileBasedCache',
+        # 'LOCATION': 'var/temp/django_cash',
+        'LOCATION': 'C:/django_cash',
+    }
+}
+
+
+CACHE_MIDDLEWARE_SECONDS = 100
 
 
 # Password validation
@@ -141,13 +160,24 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+USE_L10N = True
+
+LOCALE_PATHS=[
+    BASE_DIR/ 'locale',
+]
+
 USE_TZ = True
+
+LANGUAGES = [
+    ('en', _('English')),
+    ('ru', _('Russian')),
+]
 
 
 # Static files (CSS, JavaScript, Images)
@@ -181,3 +211,5 @@ SPECTACULAR_SETTINGS = {
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
+
+CART_SESSION_ID = 'cart'

@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+
+{%  load i18n %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,21 +10,37 @@
     </title>
 </head>
 <body>
+    {% url 'shopapp:groups_list' as groups_list_url %}
+    {% url 'shopapp:orders_list' as  orders_list_url%}
+    {% url 'shopapp:product_list' as product_list_url %}
+    {% url 'test_auth:logout' as logout_url %}
+    {% url 'test_auth:login' as login_url %}
+    
+    
+    
     <div class="toolbar">
     <ul>
-        <li> <a href="{% url 'shopapp:groups_list' %}">Группы</a></li>
-        <li> <a href="{% url 'shopapp:orders_list' %}">Заказы</a></li>
-        <li> <a href="{% url 'shopapp:product_list' %}">Товары</a></li>
+        {% blocktranslate %}
+        <li> <a href="{{ groups_list_url }}">Groups</a></li>
+        <li> <a href="{{ orders_list_url }}">Orders</a></li>
+        <li> <a href="{{ product_list_url }}">Products</a></li>
+        {% endblocktranslate %}  
+    
         {% if user.is_authenticated %}
-            <span>Привет, {{ user.username }}!</span>
-            <a href=" {% url 'test_auth:logout' %} ">Выйти</a>
+            {% blocktranslate %}
+            <span>Welcome, {{ user.username }}!</span>
+            <a href="{{ logout_url }}  ">Выйти</a>
+            {% endblocktranslate %}
         {% else %}
-            <a href="{% url 'test_auth:login' %}">Войти</a>
+            {% blocktranslate %}
+            <a href="{{login_url }}">Войти</a>
+            {% endblocktranslate %}
         {% endif %}
     </ul>
         
     </div>
-
+    
+    
     {% block body %}
 
     {% endblock %}

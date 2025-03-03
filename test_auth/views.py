@@ -1,4 +1,5 @@
 from audioop import reverse
+
 from http.client import responses
 
 from django.contrib.auth.forms import UserCreationForm
@@ -8,9 +9,37 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse_lazy, reverse
+from django.utils.translation import gettext_lazy as _, ngettext
+from django.views import View
+from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView, CreateView
+from random import random
 
 from test_auth.models import Profile
+
+
+class HelloView(View):
+    message = _('Hello World!')
+
+    def get(self, request):
+
+        items = request.GET.get('items') or 0
+
+        items = int(items)
+
+        products = ngettext(
+            'one product',
+            '{count} products',
+            items
+        )
+
+        products = products.format(count=items)
+
+        return HttpResponse(
+            f'<h1>{self.message}</h1>'
+            f'\n<h2>{products}</h2>'
+        )
+
 
 
 class ProfileView(LoginRequiredMixin,TemplateView ):
@@ -73,10 +102,10 @@ def set_cookie_view(request:HttpRequest) -> HttpResponse:
     response.set_cookie('new', 'info', max_age=3600)
     return response
 
-
+@cache_page(30)
 def get_cookie_view(request:HttpRequest) -> HttpResponse:
     value = request.COOKIES.get('new', 'default info')
-    return HttpResponse(f'Cookie value: {value}')
+    return HttpResponse(f'Cookie value: {value} + {random()}')
 
 
 def set_session_view(request:HttpRequest) -> HttpResponse:

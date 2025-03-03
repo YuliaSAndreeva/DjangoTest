@@ -1,4 +1,5 @@
 {%  extends 'shopapp/base.html' %}
+{%  load cache %}
 
 {% block title %}
     Index
@@ -14,4 +15,24 @@
             {% endif %}
         {% endfor %}
     </ul>
+    
+    <div>
+        <ul>  
+            <li>I have {{ items }} item{{ items|pluralize }} </li>
+             <li>I have {{ items }} class{{ items|pluralize:'es' }}</li>
+             <li>I have {{ items }} cherr{{ items|pluralize:'y,ies' }}</li>
+            
+            </ul>
+    </div>
+    
+    <div>
+       {{ time_running }}
+    </div>
+    
+{#    #}
+{#    {% cache 30 time_running %}#}
+{#    <div>#}
+{#       {{ time_running }}#}
+{#    </div>#}
+{#    {% endcache %}#}
 {%  endblock %}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+      {% block title %}
+        Base Title
+      {% endblock %}
+    </title>
+</head>
+
+<body>
+<div>
+    {% if user.is_authenticated %}
+        <p><a href="{% url 'market:client_info' pk=user.client.pk %}">Имя: {{ user.client.name }}</a>
+            || Баланс: {{ user.client.balance }}
+            <a href="{% url 'test_auth:logout' %}">Выйти</a></p>
+        <div id="subheader">
+            <div class="cart">
+            {% with total_ithem=cart|length %}
+                {% if cart|length > 0 %}
+                    Ваша корзина:
+                    <a href="{% url 'cart:cart_details' %}">{{ total_ithem }}шт.{{ cart.get_total_sum }}р.</a>
+                {% else %}
+                    Ваша корзина пуста
+                {% endif %}
+            {% endwith %}
+            </div>
+            
+        </div>
+    {% else %}
+        <a href="{% url 'test_auth:login' %}">Войти</a>
+    {% endif %}
+</div>
+{% block body %}
+  Base Body
+{% endblock %}
+
+</body>
+</html>

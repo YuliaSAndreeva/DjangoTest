@@ -6,7 +6,9 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import DetailView, UpdateView, ListView
+from django.views.generic.edit import FormMixin
 
+from cart.forms import CartAddProductForm
 from .forms import WalletForm
 from .models import Client, ShopItem
 
@@ -51,9 +53,18 @@ def wallet_up(request:HttpRequest, *args, **kwargs) -> HttpResponse:
 
 class ProductsListView(ListView):
     template_name = 'market/products-list.html'
-    queryset = ShopItem.objects.all()
+    # queryset = ShopItem.objects.all()
 
-class ProductDetailView(DetailView):
+    queryset = (
+        ShopItem.objects.
+        select_related('shop').
+        select_related('product').
+        order_by('product')
+    )
+
+
+class ProductDetailView(FormMixin, DetailView):
     template_name = 'market/product_details.html '
     model = ShopItem
     context_object_name = 'product'
+    form_class = CartAddProductForm
